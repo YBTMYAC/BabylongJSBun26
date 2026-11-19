@@ -1,6 +1,6 @@
 import { Vector3, Quaternion } from "@babylonjs/core";
 
-import type { SceneData } from "./src/interfaces";
+import type { SceneData } from "./interfaces";
 
 // rotate box
 let boxAngle: number = 0.3;
