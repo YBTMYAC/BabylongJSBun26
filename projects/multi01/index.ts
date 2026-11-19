@@ -1,7 +1,11 @@
-import { Engine } from "@babylonjs/core";
-import { createStartScene } from './createStartScene';
-import { ShowInspector } from "@babylonjs/inspector";
-import './main.css';
+import { Engine} from "@babylonjs/core";
+import createScene1  from "./scene1/createStartScene";
+import createScene2  from "./scene2/createStartScene";
+import createScene3  from "./scene3/createStartScene";
+import createScene4  from "./scene4/createStartScene";
+import createGui     from "./gui/createStartGui";
+import "./main.css";
+
 
 const CanvasName = "renderCanvas";
 
@@ -18,9 +22,26 @@ document.body.style.minHeight = "100vh";       // Use full viewport height
 document.body.style.margin = "0"; 
 document.body.appendChild(canvas);
 
+let scene;
+let scenes: any[] = [];
+
 let eng = new Engine(canvas, true, {}, true);
-let startScene = createStartScene(eng);
-eng.runRenderLoop(() => {
-    startScene.render();
-});     
-ShowInspector(startScene);
+let gui = createGui(eng);
+
+(async function main(){
+scenes[0] = createScene1(eng);
+scenes[1] = createScene2(eng);
+scenes[2] = createScene3(eng);
+scenes[3] = createScene4(eng);
+setSceneIndex(0);
+})();
+
+export default function setSceneIndex(i: number) {
+  console.log("Switching to scene index:", i, scenes[i]);
+  eng.stopRenderLoop();
+  eng.runRenderLoop(() => {
+      scenes[i].scene.render();
+      gui.scene.autoClear = false;
+      gui.scene.render();
+  });
+}   
