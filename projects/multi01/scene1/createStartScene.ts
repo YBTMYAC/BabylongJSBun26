@@ -1,5 +1,3 @@
-import type { SceneData } from "../interfaces";
-
 import {
   Scene,
   ArcRotateCamera,
@@ -8,6 +6,8 @@ import {
   MeshBuilder,
   Engine,
 } from "@babylonjs/core";
+
+import type { SceneData } from "../interfaces";
 
 function createBox(scene: Scene) {
   let box = MeshBuilder.CreateBox("box", { size: 1 }, scene);

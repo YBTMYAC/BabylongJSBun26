@@ -9,9 +9,29 @@ import {
   Texture,
   StandardMaterial,
   Color3,
+  AssetsManager,
+  MeshAssetTask,
 } from "@babylonjs/core";
+import "@babylonjs/loaders/glTF/2.0";
 
 import { type SceneData } from "../interfaces";
+
+function addAssets(scene: Scene) {
+  const assetsManager = new AssetsManager(scene);
+  const Jim:MeshAssetTask = assetsManager.addMeshTask(
+    "Jim task",
+    "",
+    "./assets/Models/",
+    "Jim.glb"
+  );
+  console.log("shere is Jim");
+  Jim.onSuccess = function (task) {
+    console.log("Jim is in the house");
+    task.loadedMeshes[0]!.position = new Vector3(3, 0, 2);
+    task.loadedMeshes[0]!.scaling = new Vector3(1, 1, 1);
+  };
+  return assetsManager;
+}
 
 function createTube(scene: Scene) {
   const myPath = [new Vector3(1.85, 0.85, 0.85), new Vector3(1.35, 0.35, 0.35)];
@@ -79,5 +99,7 @@ export default function createStartScene(engine: Engine) {
   sceneData.sphere = createSphere(sceneData.scene);
   sceneData.ground = createGround(sceneData.scene);
   sceneData.camera = createArcRotateCamera(sceneData.scene);
+  const assetsManager = addAssets(sceneData.scene);
+  assetsManager.load();
   return sceneData;
 }
